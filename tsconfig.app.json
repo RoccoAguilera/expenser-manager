@@ -7,6 +7,9 @@
     "module": "ESNext",
     "skipLibCheck": true,
 
+    /* React Router */
+    "rootDirs": [".", "./.react-router/types"],
+
     /* Resolve Alias */
     "paths": {
       "@assets/*": ["./src/assets/*"],
@@ -30,5 +33,5 @@
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true
   },
-  "include": ["src"]
+  "include": ["src", ".react-router/types/**/*"]
 }
