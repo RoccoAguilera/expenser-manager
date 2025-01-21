@@ -1,4 +1,5 @@
-import { createContext, useReducer } from 'react'
+import { useReducer } from 'react'
+import { ContextState, ContextSetting } from "./context"
 import {
   reducerState,
   initialState,
@@ -7,9 +8,6 @@ import {
 } from "./reducer"
 
 type Props = { children: React.ReactNode }
-
-export const ContextState = createContext<any>(null)
-export const ContextSetting = createContext<any>(null)
 
 export function ContextStateProvider(props: Props) {
   const [state, setState] = useReducer(reducerState, initialState)

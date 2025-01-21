@@ -1,5 +1,5 @@
 import { useContext } from "react"
-import { ContextState, ContextSetting } from "../environment"
+import { ContextState, ContextSetting } from "../environment/context"
 import type { ReturnState, ReturnSetting } from "../environment/types/reducer"
  
 export const useContextState = () => useContext<ReturnState>(ContextState)
