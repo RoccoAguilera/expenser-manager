@@ -1,5 +1,6 @@
 import { defineConfig } from 'vite'
 import { reactRouter } from "@react-router/dev/vite";
+import netlifyPlugin from "@netlify/vite-plugin-react-router";
 import tailwindcss from '@tailwindcss/vite'
 import svgr from 'vite-plugin-svgr'
 import path from 'path';
@@ -16,6 +17,7 @@ export default defineConfig({
   },
   plugins: [
     reactRouter(), 
+    netlifyPlugin(),
     tailwindcss(),
     svgr({
     svgrOptions: {
