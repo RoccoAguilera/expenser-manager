@@ -12,7 +12,7 @@ export type State = {
 export type ActionState =
   { type: "add-profile", payload: Data } |
   { type: "remove-profile", payload: Data["id"] } |
-  { type: "set-profile", payload: Data[] } |
+  { type: "set-profile", payload: Data[] | null } |
   { type: "set-current-id", payload?: Data } |
   { type: "edit-profile", payload: Data }
 

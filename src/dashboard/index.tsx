@@ -5,7 +5,7 @@ import Form from "./components/Form"
 import "./index.css"
 
 /* Dashboard layout - Initial Route "/" */
-export default function App() {
+export default function Dashboard() {
   return (
     <>
       <ContextSettingProvider>
@@ -13,7 +13,7 @@ export default function App() {
           <main className="relative flex h-dvh">
             <Form />
             <Sidebar />
-            <div className="flex-1 max-w-screen-lg mx-auto pt-2 px-5">
+            <div className="relative flex-1 max-w-screen-lg mx-auto pt-2 px-5">
               <Outlet />
             </div>
           </main>

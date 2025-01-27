@@ -24,7 +24,7 @@ export const reducerState = (state: State, action: ActionState): State => {
     return { profiles: newProfiles }
   }
 
-  if (type == "set-profile") {
+  if (type == "set-profile" && payload) {
     return { ...state, profiles: payload }
   }
 

@@ -8,6 +8,6 @@ import {
 export default [
   layout("dashboard/index.tsx", [
     index("dashboard/example.tsx"),
-    route("/profile/:id","dashboard/manager/index.tsx"),
+    route("/instance/:id","dashboard/manager/index.tsx"),
   ])
 ] satisfies RouteConfig;

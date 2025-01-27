@@ -1,8 +1,6 @@
-import { Suspense } from 'react'
 import { useContextSetting } from '../hooks/Context'
 import ButtonAction from '@ui-system/buttons/Action'
 import PanelProfile from './component/PanelProfile'
-import PanelLoader from './loader/PanelLoader'
 
 export default function Sidebar() {
   const { setSetting } = useContextSetting()
@@ -12,9 +10,7 @@ export default function Sidebar() {
       <div className='px-4 py-2 border-b border-gry-200'>
         <ButtonAction onClick={() => setSetting({ type: "set-panel" })}>Add instance</ButtonAction>
       </div>
-      <Suspense fallback={<PanelLoader />}>
-        <PanelProfile />
-      </Suspense>
+      <PanelProfile />
     </div>
   )
 }

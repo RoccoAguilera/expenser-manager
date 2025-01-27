@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "react-router dev",
     "build": "react-router build",
+    "buildtsc": "tsc -b && react-router build",
     "lint": "eslint .",
     "preview": "vite preview"
   },

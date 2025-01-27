@@ -3,3 +3,17 @@
   scrollbar-width: thin;
   scrollbar-gutter: stable;
 }
+
+.loader {
+  animation: 1s ease-in-out .2s infinite alternate both loader;
+}
+
+@keyframes loader {
+  from {
+    width: 0%;
+  }
+
+  to {
+    width: 100%;
+  }
+}
