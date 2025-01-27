@@ -67,7 +67,7 @@ export default function FormCustom() {
   if (!panel.show) { return }
 
   return (
-    <div className="absolute flex size-full">
+    <div className="absolute z-50 flex size-full">
       <span className="block flex-1 bg-white/80" onClick={handlerToggle}></span>
       <div className="flex-1 flex flex-col max-w-md border-l border-gry-200 bg-white">
         <div className="mt-4 mb-2 px-4">

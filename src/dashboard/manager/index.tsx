@@ -14,14 +14,21 @@ export default function Manager({ params }: Route.ComponentProps) {
   if (currentProfile == undefined) return "Loading"
 
   return (
-    <div>
+    <>
       <BarNavigation currentProfile={currentProfile} setState={setState} />
       <span className="block mb-2 text-xs font-light text-gry-400">
         {new Date(currentProfile.date).toString()}
       </span>
       <div className="flex gap-4 p-4 rounded-lg border border-gry-200">
 
-        
+      <Dropdown>
+          <ButtonEmpty behavior="onlyIcon">
+            <Dots />
+          </ButtonEmpty>
+          <div className="absolute z-10 max-w-2xs w-full p-2 border border-gry-200 bg-white">
+            hello
+          </div>
+        </Dropdown>
 
         <div className="flex-1 flex flex-wrap">
           <div className="flex-1">
@@ -39,17 +46,10 @@ export default function Manager({ params }: Route.ComponentProps) {
           />
         </div>
 
-        <Dropdown>
-          <ButtonEmpty behavior="onlyIcon">
-            <Dots />
-          </ButtonEmpty>
-          <div className="absolute z-10 max-w-2xs w-full p-2 border border-gry-200 bg-white">
-            hello
-          </div>
-        </Dropdown>
+        
 
       </div>
-    </div>
+    </>
   )
 }
 
@@ -60,14 +60,17 @@ type Props = Omit<ComponentProps<"div">, "children"> & {
 
 function Dropdown({ children, gap = 5, ...props }: Props) {
   // const [toggle, setToggle] = useState(false)
-  const reference = useRef<any>(null)
+  const reference = useRef<HTMLDivElement | null>(null)
 
   useEffect(() => {
-    const firstCall = () => assingPosition(reference.current)
-    window.addEventListener("resize", firstCall)
-    firstCall()
-    return () => {
-      window.removeEventListener('resize', firstCall)
+    const { current } = reference
+    if (current) {
+      const firstCall = () => { assingPosition(current) }
+      firstCall()
+      window.addEventListener("resize", firstCall)
+      return () => {
+        window.removeEventListener('resize', firstCall)
+      }
     }
   }, [])
 
@@ -75,14 +78,11 @@ function Dropdown({ children, gap = 5, ...props }: Props) {
     const { firstElementChild, lastElementChild } = element
 
     if (firstElementChild && lastElementChild) {
-      const rect = getParentClientRect(firstElementChild, lastElementChild)
-      console.log(rect)
-      if (rect.position == "right") {
-        lastElementChild.setAttribute("style", `right: ${rect.right}px`)
-      } else if (rect.position == "left") {
-        lastElementChild.setAttribute("style", `left: ${rect.left}px`)
-      } else {
-
+      const { positionx, left, right } = getParentClientRect(firstElementChild, lastElementChild)
+      if (positionx == "right") {
+        lastElementChild.setAttribute("style", `right: ${right}px`)
+      } else if (positionx == "left") {
+        lastElementChild.setAttribute("style", `left: ${left}px`)
       }
     }
   }
@@ -94,14 +94,14 @@ function Dropdown({ children, gap = 5, ...props }: Props) {
 
 type PropsCheck = [firstChild: Element, lastChild: Element]
 type Orientation = {
-  position?: "left" | "top" | "right" | "bottom";
+  positionx?: "left" | "right";
   left?: number;
   top?: number;
   right?: number;
 }
 
 function getParentClientRect(...[firstChild, lastChild]: PropsCheck) {
-  let orientation: Orientation = { position: undefined }
+  let orientation: Orientation = { positionx: undefined }
 
   if (
     firstChild instanceof HTMLElement &&
@@ -111,27 +111,40 @@ function getParentClientRect(...[firstChild, lastChild]: PropsCheck) {
     const widthParent = firstChild.offsetParent.offsetWidth
     const firstClientRect = firstChild.getBoundingClientRect()
     const lastClientRect = lastChild.getBoundingClientRect()
-    const firstSpaceLeft = firstChild.offsetLeft
 
+    
+    
+    const offsetLeft = firstChild.offsetLeft
     // La suma del ancho del primer hijo con su offsetLeft
-    const offsetLeft = (firstSpaceLeft + firstClientRect.width)
+    const leftSpace = (offsetLeft + firstClientRect.width)
+    const offsetRight = widthParent - leftSpace
+
+    const limitLeft = leftSpace - lastClientRect.width
 
     // Calcula el espacio del primer hijo con respecto al ancho que ocupa el ultimo hijo
     // para saber si la posicion es izquierda o derecha.
-    if (widthParent - (firstSpaceLeft + lastClientRect.width) > 0) {
+    // if (widthParent - (firstSpaceLeft + lastClientRect.width) > 0) {
+    //   orientation = {
+    //     position: "left",
+    //     left: firstSpaceLeft
+    //   }
+    // } else if (offsetLeft - lastClientRect.width > 0) {
+    //   orientation = {
+    //     position: "right",
+    //     right: widthParent - (firstClientRect.width + firstSpaceLeft)
+    //   }
+    // } else 
+
+    if (offsetLeft > offsetRight) {
       orientation = {
-        position: "left",
-        left: firstSpaceLeft
+        positionx: "right",
+        right: limitLeft >= 0 ? offsetRight : 0
       }
-    } else if (offsetLeft - lastClientRect.width > 0) {
-      orientation = {
-        position: "right",
-        right: widthParent - (firstClientRect.width + firstSpaceLeft)
-      }
-    } else if (firstSpaceLeft > widthParent - offsetLeft) {
-      orientation = { position: "right", right: 0 }
     } else {
-      orientation = { position: "left", left: 0 }
+      orientation = {
+        positionx: "left",
+        left: offsetLeft
+      }
     }
   }
 
